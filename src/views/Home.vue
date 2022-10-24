@@ -1,18 +1,32 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+
+  <p>Hello world {{ counter }}</p>
+  <a-button type="primary" @click="counter++">Increment</a-button>
+  
+  <div style="background-color: #ececec; padding: 20px">
+    <a-row :gutter="16">
+      <a-col :span="8">
+        <a-card title="Card title" :bordered="false">
+          <p>card content</p>
+        </a-card>
+      </a-col>
+      <a-col :span="8">
+        <a-card title="Card title" :bordered="false">
+          <p>card content</p>
+        </a-card>
+      </a-col>
+      <a-col :span="8">
+        <a-card title="Card title" :bordered="false">
+          <p>card content</p>
+        </a-card>
+      </a-col>
+    </a-row>
   </div>
 </template>
 
-<script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+<script setup>
 
-export default {
-  name: 'Home',
-  components: {
-    HelloWorld
-  }
-}
+import { ref } from 'vue';
+
+const counter = ref(0);
 </script>
