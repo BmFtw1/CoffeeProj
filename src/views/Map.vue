@@ -3,7 +3,7 @@
 
         <input placeholder="input search text" />
         <Button type="primary" @click="getGeolocation">
-            <ArrowDownOutlined></ArrowDownOutlined>
+            <EnvironmentOutlined />
         </Button>
     </div>
 
@@ -11,14 +11,18 @@
         <GoogleMap api-key="AIzaSyCky3h2oQProq4sTDUe5BIZgJg_MuvA2i0" ref="mapRef" style="width: 100%; height: 500px"
             :zoom="15">
             
-            <CustomMarker :options="{ position: coord }" icon>
+            <CustomMarker :options="{ position: coord }" >
                 
-                <InfoWindow :options="{ position: coord, }">
-                    <input type="file" @change="uploadImage" class = "window"/>
+                <InfoWindow :options="{ position: coord, } " :opened="true">
+                    
                     <img :src="imageURL" width="100" height="100" style="margin-top: 8px" />
                 </InfoWindow>
+                
             </CustomMarker>
         </GoogleMap>
+    </div>
+    <div>
+        <input type="file" @change="uploadImage" class = "window"/>
     </div>
 <!-- 
     <div class="clearfix">
@@ -39,7 +43,7 @@
 
 <script setup>
 
-import { ArrowDownOutlined} from '@ant-design/icons-vue';
+import { EnvironmentOutlined,  } from '@ant-design/icons-vue';
 import { ref } from 'vue';
 import { GoogleMap, CustomMarker, InfoWindow } from "vue3-google-map";
 import { storage } from '../Firebase/firebaseinit'
@@ -86,6 +90,7 @@ function uploadImage(e) {
     })
     
 }
+
 
 // function getBase64(file) {
 //     return new Promise((resolve, reject) => {

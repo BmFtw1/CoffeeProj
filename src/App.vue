@@ -17,12 +17,12 @@
         </a-menu-item>
         <a-menu-item key="3">
           <RouterLink to="/map">
-            <upload-outlined />
+            <AimOutlined />
             <span>Map</span>
           </RouterLink>
         </a-menu-item>
         <a-menu-item key="4" @click="$store.dispatch('logout')">
-          <upload-outlined />
+          <LogoutOutlined />
           <span>Logout</span>
         </a-menu-item>
       </a-menu>
@@ -43,10 +43,11 @@
 import {
   UserOutlined,
   VideoCameraOutlined,
-  UploadOutlined,
+  AimOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
-
+  LogoutOutlined,
+  
 } from '@ant-design/icons-vue';
 import { ref } from 'vue';
 
