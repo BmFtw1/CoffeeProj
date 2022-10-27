@@ -1,12 +1,13 @@
 <template>
     <a-form :model="formState" name="basic" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }" autocomplete="off"
-        :validate-messages = "validateMessages" @finish="onFinish" @finishFailed="onFinishFailed" @submit.prevent="register">
+        :validate-messages="validateMessages" @finish="onFinish" @finishFailed="onFinishFailed"
+        @submit.prevent="register">
         <a-form-item :name="['user', 'email']" label="Email" :rules="[{ type: 'email' }]">
             <a-input v-model:value="register_form.email" />
         </a-form-item>>
 
         <a-form-item label="Password" name="password"
-            :rules="[{ required: true, message: 'Please input your password!', type: 'password'}]">
+            :rules="[{ required: true, message: 'Please input your password!', type: 'password' }]">
             <a-input-password v-model:value="register_form.password" />
         </a-form-item>
 
@@ -27,7 +28,7 @@ const register = () => {
 }
 const validateMessages = {
 
-    types:{
+    types: {
         email: '${label} is not a valid email!',
     }
 }

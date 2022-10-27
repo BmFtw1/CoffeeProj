@@ -1,7 +1,6 @@
 <template>
     <div class="input">
-
-        <input placeholder="input search text" />
+        <!-- <input placeholder="input search text" /> -->
         <Button type="primary" @click="getGeolocation">
             <EnvironmentOutlined />
         </Button>
@@ -10,21 +9,18 @@
     <div>
         <GoogleMap api-key="AIzaSyCky3h2oQProq4sTDUe5BIZgJg_MuvA2i0" ref="mapRef" style="width: 100%; height: 500px"
             :zoom="15">
-            
-            <CustomMarker :options="{ position: coord }" >
-                
-                <InfoWindow :options="{ position: coord, } " :opened="true">
-                    
+
+            <CustomMarker :options="{ position: coord }">
+
+                <InfoWindow :options="{ position: coord, }" :opened="true">
+                    <input type="file" @change="uploadImage" class="window" />
                     <img :src="imageURL" width="100" height="100" style="margin-top: 8px" />
                 </InfoWindow>
-                
             </CustomMarker>
         </GoogleMap>
     </div>
-    <div>
-        <input type="file" @change="uploadImage" class = "window"/>
-    </div>
-<!-- 
+
+    <!-- 
     <div class="clearfix">
         <a-upload v-model:file-list="fileList" list-type="picture-card" @preview="handlePreview">
             <div v-if="fileList.length < 8">
@@ -42,17 +38,17 @@
 </template>
 
 <script setup>
-
-import { EnvironmentOutlined,  } from '@ant-design/icons-vue';
+import { EnvironmentOutlined, } from '@ant-design/icons-vue';
 import { ref } from 'vue';
 import { GoogleMap, CustomMarker, InfoWindow } from "vue3-google-map";
-import { storage } from '../Firebase/firebaseinit'
+import { storage, database } from '../Firebase/firebaseinit'
 import { ref as storageReference, uploadBytes, getDownloadURL } from "firebase/storage";
+import { ref as databaseReference, push, set, onValue } from 'firebase/database'
 
 const imageURL = ref(null)
 const mapRef = ref(null);
 const coord = ref(null);
-
+const urlkey = null;
 
 function getGeolocation() {
 
@@ -79,17 +75,33 @@ function uploadImage(e) {
     let file = e.target.files[0]
     var storageRef = storageReference(storage, file.name);
 
-    
+    var databaseRef = databaseReference(database)
+
+
+
     uploadBytes(storageRef, file).then(() => {
+        var newFileRef = push(databaseRef)
         alert("image uploaded");
         getDownloadURL(storageRef).then((downloadURL) => {
-            console.log('File available at', downloadURL);
-            imageURL.value = downloadURL
-            
+            //console.log('File available at', downloadURL);
+
+            set(newFileRef, {
+                "name": file.name,
+                "URL": downloadURL
+            })
         })
+        onValue(newFileRef, (snapshot) => {
+            var urrentURL = snapshot.val().URL;
+            localStorage.setItem(urlkey, urrentURL)
+            imageURL.value = localStorage.getItem(urlkey)
+            console.log(imageURL.value)
+        });
     })
-    
 }
+imageURL.value = localStorage.getItem(urlkey)
+
+
+
 
 
 // function getBase64(file) {
